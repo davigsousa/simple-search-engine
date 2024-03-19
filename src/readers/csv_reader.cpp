@@ -1,5 +1,5 @@
 #include "csv_reader.h"
-#include "logger.h"
+#include "utils/logger.h"
 
 CSVReader::CSVReader(std::string filename) {
     this->filename = filename;
@@ -16,18 +16,17 @@ Review CSVReader::parseLine(std::string line) {
     std::string ignoreValue;
     std::string criticName;
     std::string content;
-    std::string scoreString;
+    std::string score;
 
     std::getline(ss, ignoreValue, ',');
     std::getline(ss, criticName, ',');
     std::getline(ss, ignoreValue, ',');
     std::getline(ss, ignoreValue, ',');
     std::getline(ss, ignoreValue, ',');
-    std::getline(ss, scoreString, ',');
+    std::getline(ss, score, ',');
     std::getline(ss, ignoreValue, ',');
     std::getline(ss, content, ',');
 
-    double score = std::stod(scoreString);
     return Review(criticName, content, score);
 }
 
@@ -35,25 +34,22 @@ bool CSVReader::isValidLine(std::string line) {
     std::stringstream ss(line);
     std::string value;
 
-    // Check if critic_name is not empty
+    // Check if critic_name is empty
     std::getline(ss, value, ',');
     std::getline(ss, value, ',');
     if (value.size() == 0) {
         return false;
     }
 
+    //Check if review_score is empty
     for (int i = 0; i < 4; i++) {
         std::getline(ss, value, ',');
     }
-
-    // Check if score field can be converted to double
-    try {
-        std::stod(value);
-    } catch (std::invalid_argument e) {
+    if (value.size() == 0) {
         return false;
     }
 
-    // Check if review_content is not empty
+    // Check if review_content is empty
     std::getline(ss, value, ',');
     std::getline(ss, value, ',');
     if (value.size() == 0) {

@@ -1,6 +1,6 @@
 #include "review.h"
 
-Review::Review(std::string criticName, std::string content, double score) {
+Review::Review(std::string criticName, std::string content, std::string score) {
     this->criticName = criticName;
     this->content = content;
     this->score = score;
@@ -14,6 +14,6 @@ std::string Review::getContent() {
     return this->content;
 }
 
-double Review::getScore() {
+std::string Review::getScore() {
     return this->score;
 }
